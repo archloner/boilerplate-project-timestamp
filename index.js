@@ -5,6 +5,8 @@
 var express = require('express');
 var app = express();
 
+require('dotenv').config();
+
 // enable CORS (https://en.wikipedia.org/wiki/Cross-origin_resource_sharing)
 // so that your API is remotely testable by FCC 
 var cors = require('cors');
@@ -24,6 +26,23 @@ app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
 
+
+app.get('/api', function (req, res) {
+  let now = new Date();
+  res.json({'unix': now.valueOf(), 'utc': now.toUTCString()})
+})
+
+app.get('/api/:time', function (req, res) {
+  let date = new Date(req.params.time)
+  if (isNaN(date)) {
+    date = new Date(parseInt(req.params.time))
+    if (isNaN(date)) {
+      res.json({'error': 'Invalid Date'})
+      return;
+    }
+  }
+  res.json({"unix": date.valueOf(), "utc": date.toUTCString()})
+});
 
 
 // listen for requests :)
