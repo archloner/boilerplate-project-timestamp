@@ -22,17 +22,17 @@ router.get("/", function (req, res) {
 
 
 // your first API endpoint... 
-router.get("/api/hello", function (req, res) {
+router.get("api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
 
 
-router.get('/api', function (req, res) {
+router.get('api/', function (req, res) {
   let now = new Date();
   res.json({'unix': now.valueOf(), 'utc': now.toUTCString()})
 })
 
-router.get('/api/:time', function (req, res) {
+router.get('api/:time', function (req, res) {
   let date = new Date(req.params.time)
   if (isNaN(date)) {
     date = new Date(parseInt(req.params.time))
@@ -50,6 +50,6 @@ var listener = app.listen(process.env.PORT, function () {
   console.log('Your app is listening on port ' + listener.address().port);
 });
 
-app.use('/api', router);
+app.use('/', router);
 
 export const handler = serverless(app); 
